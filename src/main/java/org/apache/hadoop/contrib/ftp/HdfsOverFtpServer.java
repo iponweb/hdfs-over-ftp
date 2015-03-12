@@ -1,8 +1,11 @@
 package org.apache.hadoop.contrib.ftp;
 
-import org.apache.ftpserver.DefaultDataConnectionConfiguration;
+import org.apache.ftpserver.DataConnectionConfigurationFactory;
+import org.apache.ftpserver.impl.DefaultDataConnectionConfiguration;
 import org.apache.ftpserver.FtpServer;
-import org.apache.ftpserver.interfaces.DataConnectionConfiguration;
+import org.apache.ftpserver.FtpServerFactory;
+import org.apache.ftpserver.DataConnectionConfiguration;
+import org.apache.ftpserver.listener.ListenerFactory;
 import org.apache.log4j.Logger;
 
 import java.io.File;
@@ -101,23 +104,27 @@ public class HdfsOverFtpServer {
 
 		HdfsOverFtpSystem.setHDFS_URI(hdfsUri);
 
-		FtpServer server = new FtpServer();
+        FtpServerFactory serverFactory = new FtpServerFactory();
 
-		DataConnectionConfiguration dataCon = new DefaultDataConnectionConfiguration();
-		dataCon.setPassivePorts(passivePorts);
-		server.getListener("default").setDataConnectionConfiguration(dataCon);
-		server.getListener("default").setPort(port);
+        DataConnectionConfigurationFactory dataConFactory = new DataConnectionConfigurationFactory();
+		dataConFactory.setPassivePorts(passivePorts);
 
+        ListenerFactory listenerFactory = new ListenerFactory();
+        listenerFactory.setDataConnectionConfiguration(dataConFactory.createDataConnectionConfiguration());
+        listenerFactory.setPort(port);
+
+        serverFactory.addListener("default", listenerFactory.createListener());
 
 		HdfsUserManager userManager = new HdfsUserManager();
 		final File file = loadResource("/users.properties");
 
 		userManager.setFile(file);
 
-		server.setUserManager(userManager);
+		serverFactory.setUserManager(userManager);
 
-		server.setFileSystem(new HdfsFileSystemManager());
+		serverFactory.setFileSystem(new HdfsFileSystemManager());
 
+        FtpServer server = serverFactory.createServer();
 		server.start();
 	}
 
@@ -142,29 +149,32 @@ public class HdfsOverFtpServer {
 
 		HdfsOverFtpSystem.setHDFS_URI(hdfsUri);
 
-		FtpServer server = new FtpServer();
-
-		DataConnectionConfiguration dataCon = new DefaultDataConnectionConfiguration();
-		dataCon.setPassivePorts(sslPassivePorts);
-		server.getListener("default").setDataConnectionConfiguration(dataCon);
-		server.getListener("default").setPort(sslPort);
+		FtpServerFactory serverFactory = new FtpServerFactory();
 
 		MySslConfiguration ssl = new MySslConfiguration();
 		ssl.setKeystoreFile(new File("ftp.jks"));
 		ssl.setKeystoreType("JKS");
 		ssl.setKeyPassword("333333");
-		server.getListener("default").setSslConfiguration(ssl);
-		server.getListener("default").setImplicitSsl(true);
 
+        DataConnectionConfigurationFactory dataConFactory = new DataConnectionConfigurationFactory();
+        dataConFactory.setPassivePorts(passivePorts);
 
-		HdfsUserManager userManager = new HdfsUserManager();
-		userManager.setFile(new File("users.conf"));
+        ListenerFactory listenerFactory = new ListenerFactory();
+        listenerFactory.setDataConnectionConfiguration(dataConFactory.createDataConnectionConfiguration());
+        listenerFactory.setPort(port);
+        listenerFactory.setSslConfiguration(ssl);
+        listenerFactory.setImplicitSsl(true);
 
-		server.setUserManager(userManager);
+        serverFactory.addListener("default", listenerFactory.createListener());
 
-		server.setFileSystem(new HdfsFileSystemManager());
+        HdfsUserManager userManager = new HdfsUserManager();
+        userManager.setFile(new File("users.conf"));
 
+        serverFactory.setUserManager(userManager);
 
-		server.start();
+        serverFactory.setFileSystem(new HdfsFileSystemManager());
+
+        FtpServer server = serverFactory.createServer();
+        server.start();
 	}
 }

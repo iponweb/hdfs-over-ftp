@@ -1,6 +1,6 @@
 package org.apache.hadoop.contrib.ftp;
 
-import org.apache.ftpserver.ftplet.FileObject;
+import org.apache.ftpserver.ftplet.FtpFile;
 import org.apache.ftpserver.ftplet.FileSystemView;
 import org.apache.ftpserver.ftplet.FtpException;
 import org.apache.ftpserver.ftplet.User;
@@ -62,21 +62,21 @@ public class HdfsFileSystemView implements FileSystemView {
 	 * Get the user home directory. It would be the file system root for the
 	 * user.
 	 */
-	public FileObject getHomeDirectory() {
+	public FtpFile getHomeDirectory() {
 		return new HdfsFileObject("/", user);
 	}
 
 	/**
 	 * Get the current directory.
 	 */
-	public FileObject getCurrentDirectory() {
+	public FtpFile getWorkingDirectory() {
 		return new HdfsFileObject(currDir, user);
 	}
 
 	/**
 	 * Get file object.
 	 */
-	public FileObject getFileObject(String file) {
+	public FtpFile getFile(String file) {
 		String path;
 		if (file.startsWith("/")) {
 			path = file;
@@ -91,7 +91,7 @@ public class HdfsFileSystemView implements FileSystemView {
 	/**
 	 * Change directory.
 	 */
-	public boolean changeDirectory(String dir) {
+	public boolean changeWorkingDirectory(String dir) {
 		String path;
 		if (dir.startsWith("/")) {
 			path = dir;
@@ -101,7 +101,7 @@ public class HdfsFileSystemView implements FileSystemView {
 			path = "/" + dir;
 		}
 		HdfsFileObject file = new HdfsFileObject(path, user);
-		if (file.isDirectory() && file.hasReadPermission()) {
+		if (file.isDirectory() && file.isReadable()) {
 			currDir = path;
 			return true;
 		} else {
