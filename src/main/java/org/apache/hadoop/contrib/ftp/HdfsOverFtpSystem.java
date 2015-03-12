@@ -62,29 +62,29 @@ public class HdfsOverFtpSystem {
 	}
 
 //  public static String dirList(String path) throws IOException {
-//    String res = "";
+//	String res = "";
 //
-//        getDfs();
+//		getDfs();
 //
-//        Path file = new Path(path);
-//        FileStatus fileStats[] = dfs.listStatus(file);
+//		Path file = new Path(path);
+//		FileStatus fileStats[] = dfs.listStatus(file);
 //
-//        for (FileStatus fs : fileStats) {
-//            if (fs.isDir()) {
-//                res += "d";
-//            } else {
-//                res += "-";
-//            }
+//		for (FileStatus fs : fileStats) {
+//			if (fs.isDir()) {
+//				res += "d";
+//			} else {
+//				res += "-";
+//			}
 //
-//            res += fs.getPermission();
-//            res += " 1";
-//            res += " " + fs.getOwner();
-//            res += " " + fs.getGroup();
-//            res += " " + fs.getLen();
-//            res += " " + new Date(fs.getModificationTime()).toString().substring(4, 16);
-//            res += " " + fs.getPath().getName();
-//            res += "\n";
-//        }
-//    return res;
+//			res += fs.getPermission();
+//			res += " 1";
+//			res += " " + fs.getOwner();
+//			res += " " + fs.getGroup();
+//			res += " " + fs.getLen();
+//			res += " " + new Date(fs.getModificationTime()).toString().substring(4, 16);
+//			res += " " + fs.getPath().getName();
+//			res += "\n";
+//		}
+//	return res;
 //  }
 }

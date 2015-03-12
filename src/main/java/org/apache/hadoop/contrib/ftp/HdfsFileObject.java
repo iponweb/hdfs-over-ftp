@@ -95,13 +95,13 @@ public class HdfsFileObject implements FtpFile {
 	 * @throws IOException if path doesn't exist so we get permissions of parent object in that case
 	 */
 	private FsPermission getPermissions() throws IOException {
-//        try {
+//		try {
 		DistributedFileSystem dfs = HdfsOverFtpSystem.getDfs();
 		return dfs.getFileStatus(path).getPermission();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//            return null;
-//        }
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//			return null;
+//		}
 	}
 
 	/**
@@ -274,9 +274,9 @@ public class HdfsFileObject implements FtpFile {
 		}
 	}
 
-    public boolean setLastModified(long time) {
-        return false;
-    }
+	public boolean setLastModified(long time) {
+		return false;
+	}
 
 	/**
 	 * Get a size of the object
@@ -295,9 +295,9 @@ public class HdfsFileObject implements FtpFile {
 		}
 	}
 
-    public Object getPhysicalFile() {
-        return null;
-    }
+	public Object getPhysicalFile() {
+		return null;
+	}
 
 	/**
 	 * Create a new dir from the object
@@ -371,7 +371,7 @@ public class HdfsFileObject implements FtpFile {
 			DistributedFileSystem dfs = HdfsOverFtpSystem.getDfs();
 			FileStatus fileStats[] = dfs.listStatus(path);
 
-            ArrayList<FtpFile> fileObjects = new ArrayList<FtpFile>();
+			ArrayList<FtpFile> fileObjects = new ArrayList<FtpFile>();
 			for (int i = 0; i < fileStats.length; i++) {
 				fileObjects.add(new HdfsFileObject(fileStats[i].getPath().toString(), user));
 			}

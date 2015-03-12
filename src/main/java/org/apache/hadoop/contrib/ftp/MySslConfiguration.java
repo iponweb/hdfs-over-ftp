@@ -426,7 +426,7 @@ public class MySslConfiguration implements SslConfiguration {
 	 * select a specific key.
 	 *
 	 * @param keyAlias The alias to use, or null if JSSE should be allowed to choose
-	 *                 the key.
+	 *				 the key.
 	 */
 	public void setKeyAlias(String keyAlias) {
 		this.keyAlias = keyAlias;

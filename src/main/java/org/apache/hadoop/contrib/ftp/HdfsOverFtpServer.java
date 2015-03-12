@@ -104,16 +104,16 @@ public class HdfsOverFtpServer {
 
 		HdfsOverFtpSystem.setHDFS_URI(hdfsUri);
 
-        FtpServerFactory serverFactory = new FtpServerFactory();
+		FtpServerFactory serverFactory = new FtpServerFactory();
 
-        DataConnectionConfigurationFactory dataConFactory = new DataConnectionConfigurationFactory();
+		DataConnectionConfigurationFactory dataConFactory = new DataConnectionConfigurationFactory();
 		dataConFactory.setPassivePorts(passivePorts);
 
-        ListenerFactory listenerFactory = new ListenerFactory();
-        listenerFactory.setDataConnectionConfiguration(dataConFactory.createDataConnectionConfiguration());
-        listenerFactory.setPort(port);
+		ListenerFactory listenerFactory = new ListenerFactory();
+		listenerFactory.setDataConnectionConfiguration(dataConFactory.createDataConnectionConfiguration());
+		listenerFactory.setPort(port);
 
-        serverFactory.addListener("default", listenerFactory.createListener());
+		serverFactory.addListener("default", listenerFactory.createListener());
 
 		HdfsUserManager userManager = new HdfsUserManager();
 		final File file = loadResource("/users.properties");
@@ -124,7 +124,7 @@ public class HdfsOverFtpServer {
 
 		serverFactory.setFileSystem(new HdfsFileSystemManager());
 
-        FtpServer server = serverFactory.createServer();
+		FtpServer server = serverFactory.createServer();
 		server.start();
 	}
 
@@ -156,25 +156,25 @@ public class HdfsOverFtpServer {
 		ssl.setKeystoreType("JKS");
 		ssl.setKeyPassword("333333");
 
-        DataConnectionConfigurationFactory dataConFactory = new DataConnectionConfigurationFactory();
-        dataConFactory.setPassivePorts(passivePorts);
+		DataConnectionConfigurationFactory dataConFactory = new DataConnectionConfigurationFactory();
+		dataConFactory.setPassivePorts(passivePorts);
 
-        ListenerFactory listenerFactory = new ListenerFactory();
-        listenerFactory.setDataConnectionConfiguration(dataConFactory.createDataConnectionConfiguration());
-        listenerFactory.setPort(port);
-        listenerFactory.setSslConfiguration(ssl);
-        listenerFactory.setImplicitSsl(true);
+		ListenerFactory listenerFactory = new ListenerFactory();
+		listenerFactory.setDataConnectionConfiguration(dataConFactory.createDataConnectionConfiguration());
+		listenerFactory.setPort(port);
+		listenerFactory.setSslConfiguration(ssl);
+		listenerFactory.setImplicitSsl(true);
 
-        serverFactory.addListener("default", listenerFactory.createListener());
+		serverFactory.addListener("default", listenerFactory.createListener());
 
-        HdfsUserManager userManager = new HdfsUserManager();
-        userManager.setFile(new File("users.conf"));
+		HdfsUserManager userManager = new HdfsUserManager();
+		userManager.setFile(new File("users.conf"));
 
-        serverFactory.setUserManager(userManager);
+		serverFactory.setUserManager(userManager);
 
-        serverFactory.setFileSystem(new HdfsFileSystemManager());
+		serverFactory.setFileSystem(new HdfsFileSystemManager());
 
-        FtpServer server = serverFactory.createServer();
-        server.start();
+		FtpServer server = serverFactory.createServer();
+		server.start();
 	}
 }

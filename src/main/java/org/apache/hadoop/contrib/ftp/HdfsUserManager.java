@@ -33,13 +33,13 @@ public class HdfsUserManager extends AbstractUserManager {
 
 	private boolean isConfigured = false;
 
-    public HdfsUserManager() {
-        this(null, new Md5PasswordEncryptor());
-    }
+	public HdfsUserManager() {
+		this(null, new Md5PasswordEncryptor());
+	}
 
-    public HdfsUserManager(String adminName, PasswordEncryptor passwordEncryptor) {
-        super(adminName, passwordEncryptor);
-    }
+	public HdfsUserManager(String adminName, PasswordEncryptor passwordEncryptor) {
+		super(adminName, passwordEncryptor);
+	}
 
 	/**
 	 * Retrieve the file used to load and store users
@@ -240,12 +240,12 @@ public class HdfsUserManager extends AbstractUserManager {
 	 * <p/>
 	 * <pre>
 	 * If the password value is not null
-	 *    password = new password
+	 *	password = new password
 	 * else
 	 *   if user does exist
-	 *     password = old password
+	 *	 password = old password
 	 *   else
-	 *     password = &quot;&quot;
+	 *	 password = &quot;&quot;
 	 * </pre>
 	 */
 	private String getPassword(User usr) {
